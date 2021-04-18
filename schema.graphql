@@ -8,3 +8,10 @@ type Author {
   id: ID
   name: String!
 }
+
+type Book {
+  id: ID
+  author: Author
+  title: String
+  description: String
+}

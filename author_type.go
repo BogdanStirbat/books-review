@@ -17,7 +17,7 @@ var AuthorType = graphql.NewObject(graphql.ObjectConfig{
 			},
 		},
 		"name": &graphql.Field{
-			Type: graphql.NewNonNull(graphql.ID),
+			Type: graphql.NewNonNull(graphql.String),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				if author, ok := p.Source.(*Author); ok {
 					return author.Name, nil
