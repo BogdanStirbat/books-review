@@ -82,5 +82,52 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 				return book, err
 			},
 		},
+		"createReview": &graphql.Field{
+			Type: ReviewType,
+			Args: graphql.FieldConfigArgument{
+				"user": &graphql.ArgumentConfig{
+					Description: "Id of user who created the review",
+					Type:        graphql.NewNonNull(graphql.ID),
+				},
+				"book": &graphql.ArgumentConfig{
+					Description: "Id of the reviewed book",
+					Type:        graphql.NewNonNull(graphql.ID),
+				},
+				"number_of_stars": &graphql.ArgumentConfig{
+					Description: "Number of stars",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+				"body": &graphql.ArgumentConfig{
+					Description: "Body of review",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				i := p.Args["user"].(string)
+				userID, err := strconv.Atoi(i)
+				if err != nil {
+					return nil, err
+				}
+				i = p.Args["book"].(string)
+				bookID, err := strconv.Atoi(i)
+				if err != nil {
+					return nil, err
+				}
+				i = p.Args["number_of_stars"].(string)
+				numberOfStars, err := strconv.Atoi(i)
+				if err != nil {
+					return nil, err
+				}
+				body := p.Args["body"].(string)
+				review := &Review{
+					UserID:         userID,
+					BookID:         bookID,
+					NumberOfStarts: numberOfStars,
+					Body:           body,
+				}
+				err = InsertReview(review)
+				return review, err
+			},
+		},
 	},
 })
