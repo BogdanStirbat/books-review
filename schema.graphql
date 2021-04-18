@@ -3,3 +3,8 @@ type User {
   email: String!
   username: String!
 }
+
+type Author {
+  id: ID
+  name: String!
+}

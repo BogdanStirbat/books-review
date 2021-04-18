@@ -26,5 +26,22 @@ var QueryType = graphql.NewObject(graphql.ObjectConfig{
 				return GetUserByID(id)
 			},
 		},
+		"author": &graphql.Field{
+			Type: AuthorType,
+			Args: graphql.FieldConfigArgument{
+				"id": &graphql.ArgumentConfig{
+					Description: "Author ID",
+					Type:        graphql.NewNonNull(graphql.ID),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				i := p.Args["id"].(string)
+				id, err := strconv.Atoi(i)
+				if err != nil {
+					return nil, err
+				}
+				return GetAuthorByID(id)
+			},
+		},
 	},
 })

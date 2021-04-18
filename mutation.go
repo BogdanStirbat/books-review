@@ -30,5 +30,22 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 				return user, err
 			},
 		},
+		"createAuthor": &graphql.Field{
+			Type: AuthorType,
+			Args: graphql.FieldConfigArgument{
+				"name": &graphql.ArgumentConfig{
+					Description: "Author name",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				name := p.Args["name"].(string)
+				author := &Author{
+					Name: name,
+				}
+				err := InsertAuthor(author)
+				return author, err
+			},
+		},
 	},
 })
