@@ -17,6 +17,8 @@ Instructions for using Postgres DB inside a Docker container:
    `alter user book_db_user with encrypted password 'abc123def';`
    `grant all privileges on database book_db to book_db_user;`
 
+
+
 If you need later to start this container, just run `docker start <container-name>`
 
 ## Using the API
