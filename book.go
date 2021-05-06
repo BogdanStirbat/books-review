@@ -37,3 +37,39 @@ func GetBookByID(id int) (*Book, error) {
 		Description: description,
 	}, nil
 }
+
+func GetBooks() ([]*Book, error) {
+	var books []*Book
+	rows, err := db.Query("SELECT id, author_id, title, description FROM books")
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		var (
+			id, authorID       int
+			title, description string
+		)
+		err = rows.Scan(&id, &authorID, &title, &description)
+		if err != nil {
+			// handle this error
+			panic(err)
+		}
+
+		var book = &Book{
+			ID:          id,
+			AuthorID:    authorID,
+			Title:       title,
+			Description: description,
+		}
+		books = append(books, book)
+	}
+	// get any error encountered during iteration
+	err = rows.Err()
+	if err != nil {
+		panic(err)
+	}
+
+	return books, nil
+}

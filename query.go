@@ -60,6 +60,12 @@ var QueryType = graphql.NewObject(graphql.ObjectConfig{
 				return GetBookByID(id)
 			},
 		},
+		"books": &graphql.Field{
+			Type: graphql.NewList(BookType),
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return GetBooks()
+			},
+		},
 		"review": &graphql.Field{
 			Type: ReviewType,
 			Args: graphql.FieldConfigArgument{
